@@ -1,0 +1,21 @@
+<div class="overlay overlay-contentpush">
+  <button type="button" class="overlay-close"><i class="fa fa-times" aria-hidden="true"></i></button>
+  <nav>
+    <ul>
+
+      {{#if user}}
+        <li>Hi, {{user.full_name}}</li>
+      {{/if}}
+      <li><a href="/" class="active">Home</a></li>
+      <li><a href="/about">About</a></li>
+      {{#if user}}
+        <li><a href="/checkout" class="active">Checkout</a></li>
+        <li><a href="/orders" class="active">Orders</a>
+        <li><a href="/logout" class="active">Logout</a></li>
+      {{else}}
+        <li><a href="/register">Register</a>
+        <li><a href="/login">Login</a></li>
+      {{/if}}
+    </ul>
+  </nav>
+</div>
