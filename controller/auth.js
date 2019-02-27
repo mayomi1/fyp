@@ -32,7 +32,7 @@ exports.registerUser = (req, res) => {
 	newUser.save()
 		.then(user => {
 			req.session.user = user;
-			return res.redirect('/');
+			return res.redirect('/select-category');
 		})
 		.catch(error => {
 			console.log('err', error);
@@ -66,7 +66,7 @@ exports.loginUser = (req, res) => {
 	if(email && password) {
 		UserModel.findOne({email: email, password: password}).then(response => {
 			req.session.user = response;
-			res.redirect('/select-product');
+			res.redirect('/');
 		}).catch( err=> {
 			req.flash('message', 'User not found');
 			res.redirect('back');

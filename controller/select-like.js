@@ -21,7 +21,7 @@ exports.submitLikeCategory = async (req, res) => {
 			userResult.liked_category = checkedCategory;
 			const savedUser = userResult.save();
 			if (savedUser) {
-				return res.render('select-likes', {user: req.session.user})
+				return res.redirect('/select-product')
 			}
 		} catch (e) {
 			req.flash('message', 'something went wrong');

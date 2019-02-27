@@ -39,7 +39,7 @@ router.get('/image/:image', ProductController.getImageUrl);
 router.get('/single', ProductController.product);
 
 router.get('/about', function(req, res, next) {
-	res.render('about', { title: 'Shop' });
+	res.render('about', { title: 'Shop', user: req.session.user  });
 });
 
 router.get('/contact', function(req, res, next) {
