@@ -14,10 +14,12 @@ const ProductSchema = new Schema({
 		description: String,
 		product_image: String,
 		price: String,
-		category: String
+		category: String,
+		like: Boolean
 	},
 	{
 		timestamps: true
 	});
+ProductSchema.index({'$**': 'text'});
 
 module.exports = mongoose.model('product', ProductSchema);

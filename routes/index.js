@@ -63,7 +63,7 @@ router.get('/login', function(req, res, next) {
 	});
 });
 router.post('/login', Auth.loginUser);
-router.post('/logout', Auth.logout);
+router.get('/logout', Auth.logout);
 
 
 router.get('/checkout', function(req, res, next) {
@@ -84,5 +84,8 @@ router.get('/select-category', SelectController.selectLikeCategory);
 router.post('/select-category', SelectController.submitLikeCategory);
 router.post('/select-product', SelectController.selectLikeProduct);
 router.get('/select-product', SelectController.selectLike);
-
+router.post('/like/:sku', ProductController.like);
+router.post('/unlike/:sku', ProductController.unlike);
+router.get('/search', ProductController.getProductBySearch);
+router.get('/recommend', SelectController.getUserWithRecommend);
 module.exports = router;

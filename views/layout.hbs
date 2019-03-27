@@ -2,12 +2,10 @@
 <html lang="zxx">
 
 <head>
-  <title>Downy Shoes an Ecommerce Category Bootstrap Responsive Website Template | Home :: w3layouts</title>
+  <title>Downy Shop</title>
   <!-- custom-theme -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <meta name="keywords" content="Downy Shoes Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template,
-Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
   <script type="application/x-javascript">
     addEventListener("load", function () {
       setTimeout(hideURLbar, 0);
@@ -141,6 +139,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <!-- js -->
     <script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
     <!-- //js -->
+
     <!-- /nav -->
     <script src="js/modernizr-2.6.2.min.js"></script>
     <script src="js/classie.js"></script>
@@ -261,15 +260,56 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             scrollTop: $(this.hash).offset().top
           }, 1000);
         });
+
+
+
+
       });
     </script>
+
+
     <!-- //end-smoth-scrolling -->
 
     <script type="text/javascript" src="js/bootstrap-3.1.1.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.0/js/bootstrap.min.js" integrity="sha384-7aThvCh9TypR7fIc2HV4O/nFMVCBwyIUKL8XCtKE+8xgCgl/PQGuFsvShjr74PBp" crossorigin="anonymous"></script>
 
+    <script>
+      $(document).ready(function(){
+
+
+        var sku = $("#sku").val();
+        console.log('sttt ', sku);
+
+        var likebBtn = $('#like');
+        var unlikeBtn = $('#unlike');
+
+        var url = `/like/${sku}`;
+        likebBtn.click(function (e) {
+          $.post(url,
+              function (data, status) {
+                console.log('data', data);
+                if(data){
+                  window.location.reload(true);
+                }
+              });
+
+          return false;
+        });
+
+        var unlikeUrl = `unlike/${sku}`;
+        unlikeBtn.click(function(e) {
+          $.post(unlikeUrl, function(data, status) {
+            if(data){
+              window.location.reload(true);
+            }
+          })
+        })
+
+      })
+
+    </script>
 </body>
 
 </html>

@@ -3,7 +3,7 @@
   <div class="wrapper_top_w3layouts">
     <div class="header_agileits">
       <div class="logo inner_page_log">
-        <h1><a class="navbar-brand" href="index.html"><span>Downy</span> <i>Shop</i></a></h1>
+        <h1><a class="navbar-brand" href="/"><span>Downy</span> <i>Shop</i></a></h1>
       </div>
       {{> nav_menu }}
 
@@ -54,21 +54,24 @@
 <!-- //banner -->
 <div class="ads-grid_shop">
   <div class="shop_inner_inf">
-    <h3 class="head">Hi, please select the products are most interest in</h3>
-    <div class="inner_section_w3ls row" style="margin: 0 auto; width: 70%;">
-      <form method="post" action="/select-category">
-        {{#each productCategory}}
-          <div class="col-md-3 contact_grid_right text-center select-category">
-            <input value="{{this}}" type="checkbox" name="checkedCategory">
-            <label>{{this}}</label>
+    <h3 class="head text-capitalize">Hi, select categories of products you love</h3>
+    <div class="inner_section_w3ls" style="margin: 0 auto; width: 70%;">
+        <form method="post" action="/select-category">
+          <div class="row">
+            {{#each productCategory}}
+              <div class="col-md-6 col-md-offset-3 select-category">
+                <input value="{{this}}" type="checkbox" name="checkedCategory">
+                <label>{{this}}</label>
+              </div>
+            {{/each}}
+            <input type="hidden" name="userId" value="{{user._id}}">
           </div>
-        {{/each}}
-        <input type="hidden" name="userId" value="{{user._id}}">
-
-        <input type="submit"  class="contact_grid_right" value="CONTINUE">
-
-      </form>
-
+          <div class="row">
+            <div class="col-md-6">
+              <input type="submit"  class="contact_grid_right btn btn-success select-category-btn" value="CONTINUE">
+            </div>
+          </div>
+        </form>
     </div>
     <div class="clearfix"></div>
   </div>

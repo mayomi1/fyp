@@ -81,3 +81,16 @@ exports.selectLikeProduct = async (req, res) => {
 	}
 
 };
+
+exports.getUserWithRecommend = async (req, res) => {
+	const user = req.session.user;
+	const currentUser = await UserModel.findById(user._id);
+	let categoryResult = [];
+	for(const category of currentUser.liked_category) {
+		const result = await ProductModel.find({category: category});
+		for (let i = 0; i < result.length; i++) {
+			categoryResult.push(result[i])
+		}
+	}
+	res.send(categoryResult);
+};

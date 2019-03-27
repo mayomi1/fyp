@@ -2,8 +2,11 @@
  * Created by mayomi on 2/14/19 by 3:35 PM.
  */
 const ProductModel = require('../models/product');
+const UserModel = require('../models/user');
+const RecommendModel = require('../models/recommend');
 const path = require('path');
 const config = require('../config');
+const raccoon = require('raccoon');
 
 exports.upload_product = (req, res) => {
 
@@ -59,12 +62,37 @@ exports.getImageUrl = (req, res) => {
 };
 
 exports.products = async (req, res) => {
-	const allProduct = await ProductModel.find({});
-	res.render('index', {
-		products: allProduct,
-		user: req.session.user,
-		message: req.flash('message')
-	})
+
+	try {
+		const allProduct = await ProductModel.find({});
+
+		// recommendation
+		let categoryResult = [];
+		const user = req.session.user;
+		if(user) {
+			const currentUser = await UserModel.findById(user._id).limit(5);
+			for(const category of currentUser.liked_category) {
+				const result = await ProductModel.find({category: category});
+				for (let i = 0; i < result.length; i++) {
+					categoryResult.push(result[i])
+				}
+			}
+		}
+
+		res.render('index', {
+			recommendation: categoryResult,
+			products: allProduct,
+			user: req.session.user,
+			message: req.flash('message')
+		})
+
+	} catch (e) {
+		console.log(e)
+	}
+
+
+
+
 };
 
 exports.product = async (req, res) => {
@@ -79,3 +107,79 @@ exports.product = async (req, res) => {
 		})
 	}catch (e) {}
 };
+
+exports.like = (req, res) => {
+	const {sku} = req.params;
+	console.log('sku ',sku)
+	try {
+		raccoon.liked(sku, 'productId').then(() => {
+			RecommendModel({
+				product_id: sku,
+				like: true
+			}).save();
+			ProductModel.findById(sku).then((result) => {
+				result.like = true;
+				result.save();
+				return res.send(result);
+			})
+		})
+
+	}catch (e) {}
+};
+
+exports.unlike =  (req, res) => {
+	const {sku} = req.params;
+	console.log('sku ',sku)
+	try {
+		raccoon.unliked(sku, 'productId').then(() => {
+			RecommendModel({
+				product_id: sku,
+				like: false
+			}).save();
+			ProductModel.findById(sku).then((result) => {
+				result.like = false;
+				result.save();
+				return res.send(result);
+			})
+		})
+
+
+	}catch (e) {}
+};
+
+exports.getProductBySearch = async (req, res) => {
+	if (req.query.search) {
+		let searchString = req.query.search;
+		searchString = searchString.toLowerCase();
+
+
+		try {
+			const searchItem = await ProductModel.find({$text: {$search: searchString}});
+			console.log('search ', searchItem);
+			RecommendModel({
+				product_id: searchItem[0]._id,
+				like: true
+			}).save();
+
+			// recommendation
+			const rec = await ProductModel.find({category: searchItem[0].category}).limit(4);
+
+			console.log('rec' ,rec);
+
+			res.render('index', {
+				recommendation: rec,
+				products: searchItem,
+				user: req.session.user,
+				message: req.flash('message')
+			})
+		} catch (e) {
+			console('wrong search ', e)
+		}
+	}
+}
+
+exports.test = (req, res) => {
+	raccoon.recommendFor('productId', '1').then((results) => {
+		res.send(results);
+	});
+}

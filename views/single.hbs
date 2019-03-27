@@ -30,11 +30,12 @@
 					<li><a class="cd-search-trigger" href="#cd-search"> <span></span></a></li>
 				</ul>
 			</div>
-			<div id="cd-search" class="cd-search">
-				<form action="#" method="post">
-					<input name="Search" type="search" placeholder="Click enter after typing...">
-				</form>
-			</div>
+      <div id="cd-search" class="cd-search" style="z-index: 900000">
+        <form method="get" action="/search">
+          <input name="search" type="search" placeholder="Click enter after typing...">
+          <input type="submit" style="display: none;" />
+        </form>
+      </div>
 		</div>
 		<!-- //search -->
 		<div class="clearfix"></div>
@@ -61,7 +62,14 @@
       <div class="col-md-8 single-right-left simpleCart_shelfItem">
 				<h3>{{product.product_name}}</h3>
 				<p><span class="item_price">&#8358; {{product.price}}</span></p>
-
+        <form>
+          <input type="hidden" value="{{product._id}}" id="sku" name="sku"/>
+          {{#if product.like}}
+            <button><span class="glyphicon glyphicon-heart red like-btn redlike" id="unlike" aria-hidden="true"></span></button>
+          {{else}}
+            <button><span class="glyphicon glyphicon-heart like-btn" id="like" aria-hidden="true"></span></button>
+          {{/if}}
+        </form>
 				<div class="description">
 					<h5>Check delivery, payment options and charges at your location</h5>
 					<form action="#" method="post">
@@ -124,6 +132,7 @@
 									<a href="single">{{product_name}}</a>
 								</h4>
 								<div class="info-product-price">
+
 									<div class="grid_meta">
 										<div class="product_price">
 											<div class="grid-price ">
